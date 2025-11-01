@@ -5,7 +5,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-import { extractHingeInfo } from "./ai.js";
+import { extractHingeInfo, mapProfileDemographicsToTitanic } from "./ai.js";
 
 dotenv.config();
 
@@ -76,10 +76,17 @@ app.post(
         });
       }
 
-      const uploadedFiles = req.files.map((file) => ({
-        mimetype: file.mimetype,
-        data: fs.readFileSync(file.path, { encoding: "base64" }),
-      }));
+      const uploadedFiles = req.files.map((file) => {
+        console.log(
+          `Processing file: ${file.originalname}, mimetype: ${file.mimetype}`,
+        );
+        return {
+          mimetype: file.mimetype,
+          data: fs.readFileSync(file.path, { encoding: "base64" }),
+        };
+      });
+
+      console.log(`Sending ${uploadedFiles.length} images to Gemini API`);
 
       const profileData = await extractHingeInfo(uploadedFiles);
 
@@ -93,6 +100,16 @@ app.post(
     }
   },
 );
+
+// Given JSON formatted Hinge profile demographics, use reasoning (vibes) to convert to the inputs for the titanic model.
+app.post("/api/convert_demographics", async (req, res) => {
+  const demographics = req.body.demographics;
+
+  const titanicDemographics =
+    await mapProfileDemographicsToTitanic(demographics);
+
+  res.json(titanicDemographics);
+});
 
 // 404 handler
 app.use((req, res) => {

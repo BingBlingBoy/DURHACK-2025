@@ -1,23 +1,54 @@
+import "dotenv/config";
 import { GoogleGenAI } from "@google/genai";
 
-const API_KEY = process.env.API_KEY;
+const API_KEY = process.env.GEMINI_KEY;
 
 const ai = new GoogleGenAI({ apiKey: API_KEY });
 
-export async function extractHingeInfo(images) {
-  const contents = [
-    ...images.map((i) => ({
-      inlineData: i,
-    })),
-    {
-      text: "Extract the demographic information of this profile including: age, gender, height, location, whether they drink, job, and education. Return this data in JSON format.",
-    },
-  ];
+function geminiJSONToJSON(modelOutput) {
+  const cleanedText = modelOutput.replace(/```json\n?|```/g, "").trim();
+  const parsed = JSON.parse(cleanedText);
 
+  return parsed;
+}
+
+export async function extractHingeInfo(images) {
+  try {
+    const parts = [
+      ...images.map((i) => ({
+        inlineData: {
+          mimeType: i.mimetype,
+          data: i.data,
+        },
+      })),
+      {
+        text: "Extract the demographic information of this profile including: age, gender, height, location, whether they drink, job, and education. Return this data in JSON format.",
+      },
+    ];
+
+    const response = await ai.models.generateContent({
+      model: "gemini-2.0-flash-exp",
+      contents: [{ role: "user", parts }],
+    });
+
+    return geminiJSONToJSON(response.candidates[0].content.parts[0].text);
+  } catch (error) {
+    console.error("Gemini API Error:", error);
+    throw new Error(`Failed to extract profile info: ${error.message}`);
+  }
+}
+
+export async function mapProfileDemographicsToTitanic(demographics) {
   const response = await ai.models.generateContent({
-    model: "gemini-2.5-flash-lite-preview-09-2025",
-    contents,
+    model: "gemini-2.5-pro",
+    contents: [
+      {
+        text: "Given the following demographic data in the format {age:number, gender:string, height:number, location:string, drinks_alcohol:boolean, job:string, education:string}, reason what the equivalent demographics would be in the year of the sinking of the Titanic, and return this in the JSON format: {}",
+      },
+      { text: JSON.stringify(demographics) },
+    ],
   });
+
   console.log(response);
 
   return response;
