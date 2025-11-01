@@ -1,10 +1,15 @@
 import Navbar from "~/utils/navbar"
+import TitleCard from "./home_page_components/title_card"
+import Review from "./home_page_components/reviews"
 
 const Home2Page = () => {
     return (
         <>
             <Navbar/>
-            <h1>HELLO</h1>
+            <main className="px-20">
+                <TitleCard/>
+                <Review/>
+            </main>
         </>
     )
 }
