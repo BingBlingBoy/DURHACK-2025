@@ -30,7 +30,7 @@ export async function extractHingeInfo(images) {
     ];
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash-exp",
+      model: "gemini-2.5-flash-lite",
       contents: [{ role: "user", parts }],
       config: {
         temperature: 0.5,
@@ -55,7 +55,7 @@ export async function mapProfileDemographicsToTitanic(demographics) {
     ];
 
     const response = await ai.models.generateContent({
-      model: "gemini-2.0-flash-exp",
+      model: "gemini-2.5-flash-lite",
       contents: [{ role: "user", parts }],
     });
 

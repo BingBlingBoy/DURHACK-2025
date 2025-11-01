@@ -53,11 +53,22 @@ def predictSurvival(bst, Pclass, Sex, Age, Fare, Embarked):
     # New Data Format Pclass, Sex, Age, Fare, Embarked
     new_data = pd.DataFrame(
         {
-            "Pclass": [Pclass],
-            "Sex": [Sex],
-            "Age": [Age],
-            "Fare": [Fare],
-            "Embarked": [Embarked],
+            "Pclass": [int(Pclass)],
+            "Sex": [int(Sex)],
+            "Age": [float(Age)],
+            "Fare": [float(Fare)],
+            "Embarked": [int(Embarked)],
+        }
+    )
+
+    # Ensure correct data types
+    new_data = new_data.astype(
+        {
+            "Pclass": "int64",
+            "Sex": "int64",
+            "Age": "float64",
+            "Fare": "float64",
+            "Embarked": "int64",
         }
     )
 
