@@ -9,6 +9,7 @@ from sklearn.metrics import accuracy_score, classification_report
 def weight_features(X):
     return X * 3
 
+#Function to create and train the model based on Titanic dataset
 def createModel():
     df = pd.read_csv('Titanic-Dataset.csv')
 
@@ -42,6 +43,7 @@ def createModel():
 
     return bst
 
+#Function to predict for new data, args: (model (bst), Pclass (1,2,3), Sex (0,1), Age (int), Fare (float), Embarked (0,1,2))
 def predictSurvival(bst, Pclass, Sex, Age, Fare, Embarked):
     # New Data Format Pclass, Sex, Age, Fare, Embarked
     new_data = pd.DataFrame({
