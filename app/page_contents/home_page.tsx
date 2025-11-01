@@ -6,7 +6,7 @@ const Home2Page = () => {
     return (
         <>
             <Navbar/>
-            <main className="px-20">
+            <main className="p-20 bg-gradient-to-br from-blue-900 via-blue-800 to-blue-900 text-white min-h-screen">
                 <TitleCard/>
                 <Review/>
             </main>

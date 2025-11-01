@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import Carousel from "~/utils/carousel";
+import Carousel from "~/utils/carousel_review";
 import jack from "../../assets/jack.jpeg"
 import rose from "../../assets/rose.jpeg"
 
@@ -25,7 +25,7 @@ const Review = () => {
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     return (
         <>
-        <h1 className="font-bold text-4xl">Reviews</h1>
+        <h1 className="font-bold text-4xl mb-4">Reviews</h1>
         <div className="grid place-items-center">
           <Carousel
             activeItemIndex={activeItemIndex}

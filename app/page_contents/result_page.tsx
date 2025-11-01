@@ -27,7 +27,7 @@ const Result2Page = () => {
                 <Ship size={80} className="text-blue-300" />
             </div>
 
-            <h1 className="text-5xl font-bold mb-12 text-center animate-fade-in">
+            <h1 className="text-5xl font-bold mb-12 text-center animate-fadeIn">
                 Your Titanic Journey
             </h1>
 
@@ -87,7 +87,7 @@ const Result2Page = () => {
                 </div>
 
                 <div className="bg-white/10 backdrop-blur p-6 rounded-xl transform transition-all hover:scale-105 duration-300">
-                    <h3 className="text-2xl font-semibold mb-3 text-blue-300">Embarkation Port: Southampton</h3>
+                    <h3 className="text-2xl font-semibold mb-3 text-blue-300">Embarcation Port: Southampton</h3>
                     <p className="text-gray-200 leading-relaxed">{data.justification.Embarked}</p>
                 </div>
 
