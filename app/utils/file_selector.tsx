@@ -1,6 +1,7 @@
 import { useState } from "react";
 
-const API_URL = "http://localhost:3001";
+const GEMINI_API_URL = "http://localhost:3001";
+const REGRESSION_API_URL = "http://localhost:5000";
 
 const SingleFileOpener = () => {
   const [files, setFiles] = useState<FileList | null>(null);
@@ -32,7 +33,7 @@ const SingleFileOpener = () => {
         formData.append("images", file);
       });
 
-      const response = await fetch(`${API_URL}/api/extract_profile`, {
+      const response = await fetch(`${GEMINI_API_URL}/api/extract_profile`, {
         method: "POST",
         body: formData,
       });
@@ -45,20 +46,65 @@ const SingleFileOpener = () => {
       const data = await response.json();
       setResult(data);
       console.log("Upload successful:", data);
+
+      // Convert demographics to Titanic format
+      const convertResponse = await fetch(
+        `${GEMINI_API_URL}/api/convert_demographics`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            demographics: data,
+          }),
+        },
+      );
+
+      if (!convertResponse.ok) {
+        const errorData = await convertResponse.json();
+        throw new Error(errorData.message || "Conversion failed");
+      }
+
+      const convertedData = await convertResponse.json();
+      console.log("Conversion successful:", convertedData);
+
+      setResult(convertedData);
+
+      const modelResponse = await fetch(`${REGRESSION_API_URL}/api/predict`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          Pclass: convertedData.values.Pclass,
+          Sex: convertedData.values.Sex,
+          Age: convertedData.values.Age,
+          Fare: convertedData.values.Fare,
+          Embarked: convertedData.values.Embarked,
+        }),
+      });
+
+      if (!modelResponse.ok) {
+        const errorData = await modelResponse.json();
+        throw new Error(errorData.message || "Model prediction failed");
+      }
+
+      const predictionData = await modelResponse.json();
+      console.log("Model prediction:", predictionData);
+
+      setResult({
+        // ...convertedData,
+        prediction: predictionData.survived ? "Survived" : "Didn't survive",
+      });
     } catch (err) {
       const errorMessage =
-        err instanceof Error ? err.message : "Failed to upload files";
+        err instanceof Error ? err.message : "Failed to process files";
       setError(errorMessage);
       console.error("Upload error:", err);
     } finally {
       setUploading(false);
     }
-
-    const response = await fetch(`${API_URL}/api/convert_demographics`, {
-      method: "POST",
-      body: result,
-    });
-    console.log(response);
   };
 
   return (
