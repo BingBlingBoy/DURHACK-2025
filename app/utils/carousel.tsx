@@ -30,8 +30,8 @@ const Carousel: React.FC<CarouselProps> = ({
             <div className="w-full flex flex-1 items-center gap-2">
                 <button
                     onClick={() => {
-                        activeItemIndex !== 0 &&
-                            setActiveItemIndex((prevIndex) => prevIndex - 1);
+                        // activeItemIndex !== 0 &&
+                            setActiveItemIndex((prevIndex) => (prevIndex - 1 + carouselData.length) % carouselData.length);
                     }}
                     className="min-w-[30px] h-[30px] rounded-full grid place-items-center text-white bg-black bg-opacity-20 hover:bg-opacity-60 duration-200"
                 >
@@ -60,8 +60,8 @@ const Carousel: React.FC<CarouselProps> = ({
                 </div>
                 <button
                     onClick={() => {
-                        activeItemIndex !== carouselData.length - 1 &&
-                            setActiveItemIndex((prevIndex) => prevIndex + 1);
+                        // activeItemIndex !== carouselData.length - 1 &&
+                            setActiveItemIndex((prevIndex) => (prevIndex + 1) % carouselData.length);
                     }}
                     className="min-w-[30px] h-[30px] rounded-full grid place-items-center text-white bg-black bg-opacity-20 hover:bg-opacity-60 duration-200"
                 >
