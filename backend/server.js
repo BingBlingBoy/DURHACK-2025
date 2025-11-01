@@ -103,12 +103,33 @@ app.post(
 
 // Given JSON formatted Hinge profile demographics, use reasoning (vibes) to convert to the inputs for the titanic model.
 app.post("/api/convert_demographics", async (req, res) => {
-  const demographics = req.body.demographics;
+  try {
+    console.log("Received demographics conversion request:", req.body);
 
-  const titanicDemographics =
-    await mapProfileDemographicsToTitanic(demographics);
+    const demographics = req.body.demographics;
 
-  res.json(titanicDemographics);
+    if (!demographics) {
+      return res.status(400).json({
+        error: "Missing demographics data",
+        message: "Please provide demographics in the request body",
+      });
+    }
+
+    console.log("Converting demographics to Titanic format...");
+
+    const titanicDemographics =
+      await mapProfileDemographicsToTitanic(demographics);
+
+    console.log("Conversion successful:", titanicDemographics);
+
+    res.json(titanicDemographics);
+  } catch (error) {
+    console.error("Error converting demographics:", error);
+    res.status(500).json({
+      error: "Failed to convert demographics",
+      message: error.message,
+    });
+  }
 });
 
 // 404 handler
