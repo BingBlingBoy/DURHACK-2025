@@ -77,16 +77,11 @@ app.post(
       }
 
       const uploadedFiles = req.files.map((file) => {
-        console.log(
-          `Processing file: ${file.originalname}, mimetype: ${file.mimetype}`,
-        );
         return {
           mimetype: file.mimetype,
           data: fs.readFileSync(file.path, { encoding: "base64" }),
         };
       });
-
-      console.log(`Sending ${uploadedFiles.length} images to Gemini API`);
 
       const profileData = await extractHingeInfo(uploadedFiles);
 
@@ -104,8 +99,6 @@ app.post(
 // Given JSON formatted Hinge profile demographics, use reasoning (vibes) to convert to the inputs for the titanic model.
 app.post("/api/convert_demographics", async (req, res) => {
   try {
-    console.log("Received demographics conversion request:", req.body);
-
     const demographics = req.body.demographics;
 
     if (!demographics) {
@@ -115,12 +108,8 @@ app.post("/api/convert_demographics", async (req, res) => {
       });
     }
 
-    console.log("Converting demographics to Titanic format...");
-
     const titanicDemographics =
       await mapProfileDemographicsToTitanic(demographics);
-
-    console.log("Conversion successful:", titanicDemographics);
 
     res.json(titanicDemographics);
   } catch (error) {
