@@ -9,5 +9,6 @@ import {
 export default [
     index("./routes/home2.tsx"),
     // route("home2" , "./routes/home2.tsx"),
-    route("analyse" , "./routes/analyse.tsx")
+    route("analyse" , "./routes/analyse.tsx"),
+    route("result" , "./routes/result.tsx")
 ] satisfies RouteConfig;

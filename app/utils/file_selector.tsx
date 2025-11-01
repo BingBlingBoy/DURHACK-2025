@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 const GEMINI_API_URL = "http://localhost:3001";
 const REGRESSION_API_URL = "http://localhost:5000";
@@ -9,6 +10,8 @@ const SingleFileOpener = () => {
   const [previews, setPreviews] = useState<string[]>([]);
   const [result, setResult] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
+
+  const navigate = useNavigate()
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -112,6 +115,8 @@ const SingleFileOpener = () => {
         // predictionData: predictionData.survived ? "Survived" : "Didn't survive",
         combinedData 
       });
+      
+      navigate("/result", {state: { combinedData }})
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to process files";
@@ -174,7 +179,7 @@ const SingleFileOpener = () => {
           </div>
         )}
 
-        {result && (
+        {/* {result && (
           <>
           <div className="mt-4 p-4 bg-green-100 text-green-700 rounded">
             <strong>Success!</strong>
@@ -183,7 +188,7 @@ const SingleFileOpener = () => {
             </pre>
           </div>
           </>
-        )}
+        )} */}
       </div>
     </>
   );
