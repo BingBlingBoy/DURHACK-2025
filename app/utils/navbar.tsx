@@ -2,13 +2,13 @@ import { NavLink, Link } from "react-router"
 
 const Navbar = () => {
     return (
-        <nav className="bg-gray-800 text-white p-4 shadow-md flex flex-row">
-            <div className="container mx-auto flex justify-between items-center">
+        <nav className="bg-gray-800 text-white p-4 shadow-md flex items-center justify-between flex-row">
+            <div className="">
                 <a href="#">MyLogo</a>
             </div>
             <div className="hidden md:flex space-x-6">
                 <Link to="/"><a href="#" className="hover:text-gray-300 transition duration-300">Home</a></Link>
-                <Link to="/home2"><a href="#" className="hover:text-gray-300 transition duration-300">Home2</a></Link>
+                <Link to="/analyse"><a href="#" className="hover:text-gray-300 transition duration-300">Analyse</a></Link>
                 {/* <a href="#" className="hover:text-gray-300 transition duration-300">Start</a>
                 <a href="#" className="hover:text-gray-300 transition duration-300">Credit</a> */}
             </div>

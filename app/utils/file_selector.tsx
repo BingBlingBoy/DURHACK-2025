@@ -79,7 +79,7 @@ const SingleFileOpener = () => {
       const convertedData = await convertResponse.json();
       console.log("Conversion successful:", convertedData);
 
-      setResult(convertedData);
+      // setResult(convertedData);
 
       const modelResponse = await fetch(`${REGRESSION_API_URL}/api/predict`, {
         method: "POST",
@@ -102,10 +102,15 @@ const SingleFileOpener = () => {
 
       const predictionData = await modelResponse.json();
       console.log("Model prediction:", predictionData);
+      const combinedData = {
+        ...convertedData,
+        prediction: predictionData
+      };
 
       setResult({
         // ...convertedData,
-        prediction: predictionData.survived ? "Survived" : "Didn't survive",
+        // predictionData: predictionData.survived ? "Survived" : "Didn't survive",
+        combinedData 
       });
     } catch (err) {
       const errorMessage =
@@ -158,7 +163,7 @@ const SingleFileOpener = () => {
           ))}
 
         {files && (
-          <button onClick={handleUpload} className="submit" disabled={uploading}>
+          <button onClick={handleUpload} className="bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 transition disabled:text-gray-400 submit" disabled={uploading}>
             {uploading ? "Uploading..." : "Upload files"}
           </button>
         )}
@@ -170,12 +175,14 @@ const SingleFileOpener = () => {
         )}
 
         {result && (
+          <>
           <div className="mt-4 p-4 bg-green-100 text-green-700 rounded">
             <strong>Success!</strong>
             <pre className="mt-2 text-sm overflow-auto">
               {JSON.stringify(result, null, 2)}
             </pre>
           </div>
+          </>
         )}
       </div>
     </>
