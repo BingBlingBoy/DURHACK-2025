@@ -38,12 +38,13 @@ export async function extractHingeInfo(images) {
   }
 }
 
+// Pclass (1, 2, 3), Sex (0=Female, 1=Male), Age, Fare (4-512), Embarked (0=Cherbourg, 1=Southampton, 2=Queenstown)
 export async function mapProfileDemographicsToTitanic(demographics) {
   const response = await ai.models.generateContent({
     model: "gemini-2.5-pro",
     contents: [
       {
-        text: "Given the following demographic data in the format {age:number, gender:string, height:number, location:string, drinks_alcohol:boolean, job:string, education:string}, reason what the equivalent demographics would be in the year of the sinking of the Titanic, and return this in the JSON format: {}",
+        text: "Given the following demographic data in the format {age:number, gender:string, height:number, location:string, drinks_alcohol:boolean, job:string, education:string}, reason what the equivalent demographics would be in the year of the sinking of the Titanic, and return this in the JSON format: { Pclass: (1,2,3 corresponding to class), Sex: (0=Female, 1=Male), Age: num, Fare: (min=4,max=512), Embarked: (0=Cherbourg,1=Southampton,2=Queenstown) }",
       },
       { text: JSON.stringify(demographics) },
     ],
