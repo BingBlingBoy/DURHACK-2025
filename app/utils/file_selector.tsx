@@ -1,10 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
+import CarouselFileSelector from "./carousel_file_selector";
 
 const GEMINI_API_URL = "http://localhost:3001";
 const REGRESSION_API_URL = "http://localhost:5000";
 
 const SingleFileOpener = () => {
+
+  const [activeItemIndex, setActiveItemIndex] = useState(0);
   const [files, setFiles] = useState<FileList | null>(null);
   const [uploading, setUploading] = useState(false);
   const [previews, setPreviews] = useState<string[]>([]);
@@ -130,7 +133,7 @@ const SingleFileOpener = () => {
   return (
     <>
       <div className="flex items-center flex-col gap-y-4">
-        <h1 className="font-bold text-4xl">Enter Files to Analyse</h1>
+        <h1 className="font-bold text-7xl leading-tight">Enter Files to Analyse</h1>
         <div className="flex flex-col items-start mb-4 font-extrabold text-2xl">
           <input
             id="file"
@@ -141,43 +144,33 @@ const SingleFileOpener = () => {
           />
           <label
             htmlFor="file"
-            className="cursor-pointer bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 transition"
+            className="cursor-pointer bg-slate-800 text-white px-4 py-2 rounded-md shadow hover:bg-slate-600 hover:scale-110 transition"
           >
             Browse Files
           </label>
 
         </div>
-        {files &&
-          [...files].map((file, index) => (
-            <section key={file.name}>
-              <h1 className="text-3xl font-semibold">
-                Name: {file.name}
-              </h1>
-              <ul>
-                <li>Type: {file.type}</li>
-              </ul>
-              <div className="flex flex-wrap gap-4 justify-center">
-                  <img
-                    key={index}
-                    src={previews[index]}
-                    alt={`Preview ${index}`}
-                    className="w-1/4 h-1/4 object-cover rounded-lg shadow"
-                  />
-              </div>
-            </section>
-          ))}
+        <div className="w-full flex flex-1 items-center justify-center flex-col gap-y-4">
+          {files &&
+            <CarouselFileSelector 
+              activeItemIndex={activeItemIndex}
+              setActiveItemIndex={setActiveItemIndex}
+              imageData={files}
+              previewData={previews}
+            />          }
 
-        {files && (
-          <button onClick={handleUpload} className="bg-blue-500 text-white px-4 py-2 rounded-md shadow hover:bg-blue-600 transition disabled:text-gray-400 submit" disabled={uploading}>
-            {uploading ? "Uploading..." : "Upload files"}
-          </button>
-        )}
+          {files && (
+            <button onClick={handleUpload} className="bg-slate-800 font-extrabold text-white px-4 py-2 rounded-md shadow hover:bg-slate-600 hover:scale-110 transition submit" disabled={uploading}>
+              {uploading ? "Uploading..." : "Upload files"}
+            </button>
+          )}
+        </div>
 
-        {error && (
-          <div className="mt-4 p-4 bg-red-100 text-red-700 rounded">
-            <strong>Error:</strong> {error}
-          </div>
-        )}
+          {error && (
+            <div className="mt-4 p-4 bg-red-100 text-red-700 rounded">
+              <strong>Error:</strong> {error}
+            </div>
+          )}
 
         {/* {result && (
           <>

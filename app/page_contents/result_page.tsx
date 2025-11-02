@@ -9,6 +9,16 @@ const Result2Page = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
     const [revealed, setRevealed] = useState(false);
     
+    const numToPlacement = (x: number) => {
+        if (x == 1) {
+            return "First"
+        } else if (x == 2) {
+            return "Second"
+        } else {
+            return "Third"
+        }
+    }
+    
     useEffect(() => {
         if (currentSlide === 0) {
             const timer = setTimeout(() => setRevealed(true), 1000);
@@ -22,7 +32,7 @@ const Result2Page = () => {
     const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + 2) % 2);
     
     const SurvivalSlide = () => (
-        <div className="flex flex-col items-center justify-center h-full bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 text-white p-8">
+        <div className="flex flex-col items-center justify-center h-full bg-linear-to-br from-slate-900 via-blue-900 to-slate-900 text-white p-8">
             <div className="mb-8 animate-pulse">
                 <Ship size={80} className="text-blue-300" />
             </div>
@@ -72,12 +82,12 @@ const Result2Page = () => {
         </div>
     );
     const JustificationSlide = () => (
-        <div className="h-full bg-gradient-to-br from-slate-800 via-slate-900 to-blue-900 text-white p-12 overflow-y-auto">
+        <div className="h-full bg-linear-to-br from-slate-800 via-slate-900 to-blue-900 text-white p-12 overflow-y-auto">
             <h1 className="text-4xl font-bold mb-8 text-center">Analysis & Justification</h1>
 
             <div className="space-y-6 max-w-4xl mx-auto">
                 <div className="bg-white/10 backdrop-blur p-6 rounded-xl transform transition-all hover:scale-105 duration-300">
-                    <h3 className="text-2xl font-semibold mb-3 text-blue-300">Passenger Class: Third Class</h3>
+                    <h3 className="text-2xl font-semibold mb-3 text-blue-300">Passenger Class: {numToPlacement(data.values.Pclass)} Class</h3>
                     <p className="text-gray-200 leading-relaxed">{data.justification.Pclass}</p>
                 </div>
 
@@ -91,7 +101,7 @@ const Result2Page = () => {
                     <p className="text-gray-200 leading-relaxed">{data.justification.Embarked}</p>
                 </div>
 
-                <div className="bg-gradient-to-r from-red-500/20 to-red-600/20 backdrop-blur p-6 rounded-xl border-2 border-red-500/50">
+                <div className="bg-linear-to-r from-red-500/20 to-red-600/20 backdrop-blur p-6 rounded-xl border-2 border-red-500/50">
                     <h3 className="text-2xl font-semibold mb-3 text-red-300">Final Verdict</h3>
                     <p className="text-gray-200 leading-relaxed">
                         Based on historical data from the Titanic disaster, passengers with these characteristics had a {data.prediction.survived ? 'high' : 'low'} probability of survival.
