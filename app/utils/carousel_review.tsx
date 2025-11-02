@@ -35,14 +35,14 @@ const Carousel: React.FC<CarouselProps> = ({
                 >
                     <ChevronLeft size={24} />
                 </button>
-                <div className="w-full grid place-items-center rounded-xl h-[200px] duration-500 bg-white/5 backdrop-blur-sm border border-white/10 shadow-xl">
-                    <div className="w-full flex flex-1 items-center justify-between flex-row gap-6 p-6">
+                <div className="w-full flex flex-1 md:grid place-items-center rounded-xl duration-500 bg-white/5 backdrop-blur-sm border border-white/10 shadow-xl">
+                    <div className="w-full flex flex-1 items-center justify-between flex-col md:flex-row gap-6 p-6">
                         <img className="h-24 w-24 rounded-full border-4 border-white/20 shadow-lg object-cover" src={carouselData[activeItemIndex].image} alt="Reviewer" />
                         <div className="flex flex-1 flex-col gap-2">
                             <p className="font-bold text-xl text-white">{carouselData[activeItemIndex].title}</p>
                             <p className="text-blue-100 leading-relaxed">{carouselData[activeItemIndex].review}</p>
                         </div>
-                        <div className="flex flex-col items-end gap-2">
+                        <div className="flex md:flex-col items-end gap-2">
                             <div key={activeItemIndex} className="flex items-center gap-1">
                                 {[...Array(5)].map((_, index) => (
                                     <FaStar

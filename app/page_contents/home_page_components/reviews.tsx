@@ -25,13 +25,15 @@ const Review = () => {
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     return (
         <>
-        <h1 className="font-bold text-4xl mb-4">Reviews</h1>
-        <div className="grid place-items-center">
-          <Carousel
-            activeItemIndex={activeItemIndex}
-            setActiveItemIndex={setActiveItemIndex}
-            carouselData={carouselData.current}
-          />
+        <div className="flex flex-col justify-center items-center w-full">
+          <h1 className="font-bold text-4xl mb-4">Reviews</h1>
+          <div className="grid place-items-center">
+            <Carousel
+              activeItemIndex={activeItemIndex}
+              setActiveItemIndex={setActiveItemIndex}
+              carouselData={carouselData.current}
+            />
+          </div>
         </div>
         </>
     );

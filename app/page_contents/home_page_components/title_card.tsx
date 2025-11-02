@@ -12,7 +12,7 @@ const TitleCard = () => {
     return (
         <main className="flex items-center justify-center pt-12">
             <div className="flex justify-center text-center flex-1 items-center py-20 flex-col gap-y-12">
-                <h1 className={`text-7xl w-[50rem] font-bold leading-tight ${isVisible1 ? "opacity-100 " : "opacity-0"}`}>
+                <h1 className={`text-7xl max-w-[50rem] font-bold leading-tight ${isVisible1 ? "opacity-100 " : "opacity-0"}`}>
                     How likely are you to <span className="text-red-500 font-bold">SURVIVE</span> the Titanic?
                 </h1>
                 <div className="w-full max-w-6xl mt-12 px-8">
