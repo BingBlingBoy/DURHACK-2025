@@ -14,23 +14,17 @@ const Navbar = () => {
             <nav className="bg-slate-800 text-white px-8 py-5 shadow-lg flex items-center justify-between flex-row border-b border-blue-500/20">
                 <div className="flex items-center gap-2 hover:scale-110 duration-300">
                     <img className="w-12 h-12 rounded-full" src={logo} alt="Logo"/>
-                    <Link to="/">
-                        <div className="text-2xl font-bold tracking-wide hover:text-white-200 transition duration-300">Iceberg</div>
+                    <Link className="text-2xl font-bold tracking-wide hover:text-white-200 transition duration-300" to="/">
+                        Iceberg
                     </Link>
                 </div>
                 
                 <div className="hidden md:flex space-x-8 items-center">
-                    <Link to="/">
-                        <div className="text-lg font-medium hover:text-white-200 transition duration-300 relative group">
-                            Home
-                            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white-300 group-hover:w-full transition-all duration-300"></span>
-                        </div>
+                    <Link className="text-lg font-medium hover:text-blue-200 hover:scale-105 transition duration-300 relative group" to="/">
+                        Home
                     </Link>
-                    <Link to="/analyse">
-                        <div className="text-lg font-medium hover:text-white-200 transition duration-300 relative group">
-                            Analyse
-                            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white-300 group-hover:w-full transition-all duration-300"></span>
-                        </div>
+                    <Link className="text-lg font-medium hover:text-blue-200 hover:scale-105 transition duration-300 relative group" to="/analyse">
+                        Analyse
                     </Link>
                 </div>
                 
@@ -58,15 +52,11 @@ const Navbar = () => {
                 }`}
             >
                 <div className="flex flex-col space-y-4 px-8 py-6">
-                    <Link to="/" onClick={toggleMenu}>
-                        <div className="text-lg font-medium hover:text-blue-200 transition duration-300 block py-2 hover:bg-white/5 rounded-lg px-3">
-                            Home
-                        </div>
+                    <Link className="text-lg font-medium hover:text-blue-200 transition duration-300 block py-2 hover:bg-white/5 rounded-lg px-3" to="/" onClick={toggleMenu}>
+                        Home
                     </Link>
-                    <Link to="/analyse" onClick={toggleMenu}>
-                        <div className="text-lg font-medium hover:text-blue-200 transition duration-300 block py-2 hover:bg-white/5 rounded-lg px-3">
-                            Analyse
-                        </div>
+                    <Link className="text-lg font-medium hover:text-blue-200 transition duration-300 block py-2 hover:bg-white/5 rounded-lg px-3" to="/analyse" onClick={toggleMenu}>
+                        Analyse
                     </Link>
                 </div>
             </div>
