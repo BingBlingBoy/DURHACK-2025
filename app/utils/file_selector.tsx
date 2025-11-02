@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import CarouselFileSelector from "./carousel_file_selector";
+import LoadingModal from "./loading_spin";
 
 const GEMINI_API_URL = "http://localhost:3001";
 const REGRESSION_API_URL = "http://localhost:5000";
@@ -132,6 +133,7 @@ const SingleFileOpener = () => {
 
   return (
     <>
+      <LoadingModal isOpen={uploading} />
       <div className="flex items-center flex-col gap-y-4">
         <h1 className="font-bold text-7xl leading-tight">Enter Files to Analyse</h1>
         <div className="flex flex-col items-start mb-4 font-extrabold text-2xl">
