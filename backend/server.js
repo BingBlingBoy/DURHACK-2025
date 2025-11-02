@@ -5,7 +5,7 @@ import multer from "multer";
 import path from "path";
 import fs from "fs";
 
-import { extractHingeInfo, mapProfileDemographicsToTitanic } from "./ai.js";
+import { extractHingeInfo, mapProfileDemographicsToTitanic, generateProfileGraphics } from "./ai.js";
 
 dotenv.config();
 
@@ -116,6 +116,30 @@ app.post("/api/convert_demographics", async (req, res) => {
     console.error("Error converting demographics:", error);
     res.status(500).json({
       error: "Failed to convert demographics",
+      message: error.message,
+    });
+  }
+});
+
+//Given JSON formatter titanic demographics, generate profile graphics
+app.post("/api/generate_graphics", async (req, res) => {
+  try {
+    const titanicDemographics = req.body.titanicDemographics;
+    
+    if (!titanicDemographics) {
+      return res.status(400).json({
+        error: "Missing Titanic demographics data",
+        message: "Please provide Titanic demographics in the request body",
+      });
+    }
+
+    const profileGraphics = await generateProfileGraphics(titanicDemographics);
+
+    res.json(profileGraphics);
+  } catch (error) {
+    console.error("Error generating profile graphics:", error);
+    res.status(500).json({
+      error: "Failed to generate profile graphics",
       message: error.message,
     });
   }

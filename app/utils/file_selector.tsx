@@ -86,6 +86,44 @@ const SingleFileOpener = () => {
       const convertedData = await convertResponse.json();
       console.log("Conversion successful:", convertedData);
 
+      // Generate profile graphics data
+      const graphicsResponse = await fetch(`${GEMINI_API_URL}/api/generate_graphics`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          titanicDemographics: convertedData,
+        }),
+      });
+
+      if (!graphicsResponse.ok) {
+        const errorData = await graphicsResponse.json();
+        throw new Error(errorData.message || "Graphics generation failed");
+      }
+
+      const graphicsData = await graphicsResponse.json();
+      console.log("Graphics generation successful:", graphicsData);
+
+      // Generate graphics graphs using python
+      const graphGenResponse = await fetch(`${REGRESSION_API_URL}/generate_graphs`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          graphicsConfig: graphicsData,
+        })
+      });
+
+      if (!graphGenResponse.ok) {
+        const errorData = await graphGenResponse.json();
+        throw new Error(errorData.message || "Graph generation failed");
+      }
+
+      const graphGenData = await graphGenResponse.json();
+      console.log("Graph generation successful:", graphGenData);
+
       // setResult(convertedData);
 
       const modelResponse = await fetch(`${REGRESSION_API_URL}/api/predict`, {
