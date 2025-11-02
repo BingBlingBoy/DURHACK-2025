@@ -49,7 +49,7 @@ const TitleCard = () => {
                         </div>
                     </div>
                 </div>
-                <p className={`w-[55rem] text-lg text-white leading-relaxed ${isVisible3 ? "opacity-100" : "opacity-0"}`}>
+                <p className={`w-full text-lg text-white leading-relaxed ${isVisible3 ? "opacity-100" : "opacity-0"}`}>
                     Here with the <span className="font-semibold text-white">Partially Unemployed Team</span>, we answer one of the most important questions since human conception, comparable
                     to famous problems like <span className="font-semibold text-white">P versus NP</span> and <span className="font-semibold text-white">Hilbert's fifteenth problem</span>.
                     Based on your Hinge profile and your last five watched shows on Netflix, would you survive the Titanic?
