@@ -3,6 +3,14 @@ import { useLocation, useNavigate } from "react-router"
 import { ChevronLeft, ChevronRight, Ship, Skull, Heart } from 'lucide-react';
 import Navbar from "~/utils/navbar";
 
+// const voiceId = "21m00Tcm4TlvDq8ikWAM";
+const voiceId = "nPczCjzI2devNBz1zQrb";
+const apiKey = import.meta.env.VITE_API_KEY;
+const voiceSettings = {
+  stability: 0,
+  similarity_boost: 0,
+};
+
 const Result2Page = () => {
     const location = useLocation();
     const data = (location.state as { combinedData?: any })?.combinedData;
@@ -19,6 +27,81 @@ const Result2Page = () => {
         }
     }
     
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    const startStreaming = async (text:string) => {
+        setLoading(true);
+        setError("");
+
+        if (!apiKey) {
+            setError("Error: API Key is missing or invalid. Please check your configuration.");
+            setLoading(false); // Ensure loading is reset if we return early
+            return; // Stop the function from proceeding
+        }
+        const baseUrl = "https://api.elevenlabs.io/v1/text-to-speech";
+        const headers = {
+            "Content-Type": "application/json",
+            "xi-api-key": apiKey,
+        };
+
+        const requestBody = {
+            text,
+            voice_settings: voiceSettings,
+        };
+
+        try {
+            const response = await fetch(`${baseUrl}/${voiceId}`, {
+                method: "POST",
+                headers: headers,
+                body: JSON.stringify(requestBody),
+            });
+
+            if (response.ok) {
+                try {
+                    const blob = await response.blob();
+                    const audioUrl = URL.createObjectURL(blob);
+                    const audio = new Audio(audioUrl);
+
+                    await audio.play();
+
+                    audio.onended = () => {
+                        URL.revokeObjectURL(audioUrl);
+                    };
+
+                } catch (audioError) {
+                    console.error("Audio playback error:", audioError);
+                    if (audioError instanceof Error) {
+                        setError(`Audio Playback Error: ${audioError.message}`);
+                    } else {
+                        setError("An unknown error occurred during audio playback.");
+                    }
+                }
+            } else {
+                let errorDetails = "";
+                try {
+                    const errorData = await response.json();
+                    if (errorData.detail && errorData.detail.message) {
+                        errorDetails = errorData.detail.message;
+                    }
+                } catch (jsonParseError) {
+                    errorDetails = response.statusText;
+                }
+
+                setError(`API Error (${response.status}): ${errorDetails || 'Unable to stream audio.'}`);
+            }
+        } catch (networkError) {
+            console.error("Network request failed:", networkError);
+            if (networkError instanceof Error) {
+                setError(`Network Request Failed: ${networkError.message}`);
+            } else {
+                setError("Network Request Failed: An unknown error occurred.");
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         if (currentSlide === 0) {
             const timer = setTimeout(() => setRevealed(true), 1000);
@@ -86,22 +169,22 @@ const Result2Page = () => {
             <h1 className="text-4xl font-bold mb-8 text-center">Analysis & Justification</h1>
 
             <div className="space-y-6 max-w-4xl mx-auto">
-                <div className="bg-white/10 backdrop-blur p-6 rounded-xl transform transition-all hover:scale-105 duration-300">
+                <div onClick={async (e: React.MouseEvent<HTMLDivElement>) => {e.preventDefault; startStreaming(data.justification.Pclass)}} className="cursor-pointer bg-white/10 backdrop-blur p-6 rounded-xl transform transition-all hover:scale-105 duration-300">
                     <h3 className="text-2xl font-semibold mb-3 text-blue-300">Passenger Class: {numToPlacement(data.values.Pclass)} Class</h3>
                     <p className="text-gray-200 leading-relaxed">{data.justification.Pclass}</p>
                 </div>
 
-                <div className="bg-white/10 backdrop-blur p-6 rounded-xl transform transition-all hover:scale-105 duration-300">
+                <div onClick={async (e: React.MouseEvent<HTMLDivElement>) => {e.preventDefault; startStreaming(data.justification.Fare)}} className="cursor-pointer bg-white/10 backdrop-blur p-6 rounded-xl transform transition-all hover:scale-105 duration-300">
                     <h3 className="text-2xl font-semibold mb-3 text-blue-300">Ticket Fare: £{data.values.Fare}</h3>
                     <p className="text-gray-200 leading-relaxed">{data.justification.Fare}</p>
                 </div>
 
-                <div className="bg-white/10 backdrop-blur p-6 rounded-xl transform transition-all hover:scale-105 duration-300">
+                <div onClick={async (e: React.MouseEvent<HTMLDivElement>) => {e.preventDefault; startStreaming(data.justification.Pclass)}} className="cursor-pointer bg-white/10 backdrop-blur p-6 rounded-xl transform transition-all hover:scale-105 duration-300">
                     <h3 className="text-2xl font-semibold mb-3 text-blue-300">Embarcation Port: Southampton</h3>
                     <p className="text-gray-200 leading-relaxed">{data.justification.Embarked}</p>
                 </div>
 
-                <div className="bg-linear-to-r from-red-500/20 to-red-600/20 backdrop-blur p-6 rounded-xl border-2 border-red-500/50">
+                <div onClick={async (e: React.MouseEvent<HTMLDivElement>) => {e.preventDefault; startStreaming(`Based on historical data from the Titanic disaster, passengers with these characteristics had a ${data.prediction.survived ? 'high' : 'low'} probability of survival. The survival rate was heavily influenced by passenger class, with third-class passengers facing significantly lower survival rates.`)}} className="cursor-pointer bg-linear-to-r from-red-500/20 to-red-600/20 backdrop-blur p-6 rounded-xl border-2 border-red-500/50">
                     <h3 className="text-2xl font-semibold mb-3 text-red-300">Final Verdict</h3>
                     <p className="text-gray-200 leading-relaxed">
                         Based on historical data from the Titanic disaster, passengers with these characteristics had a {data.prediction.survived ? 'high' : 'low'} probability of survival.
