@@ -112,6 +112,9 @@ app.post("/api/convert_demographics", async (req, res) => {
       });
     }
 
+    const titanicDemographics =
+      await mapProfileDemographicsToTitanic(demographics);
+
     res.json(titanicDemographics);
   } catch (error) {
     console.error("Error converting demographics:", error);

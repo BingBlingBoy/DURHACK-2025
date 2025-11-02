@@ -1,7 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import logging
-import seaborn as sns
 import matplotlib.pyplot as plt
 import pandas as pd
 import io
@@ -16,12 +15,13 @@ CORS(app)
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+
 def generate_graphs(config):
     print(config["graphicsConfig"])
     config = config["graphicsConfig"]
     if "graphs" not in config or not isinstance(config["graphs"], list):
         raise ValueError("Input must contain a 'graphs' list.")
-    
+
     image_results = []
 
     for i, graph in enumerate(config["graphs"], start=1):
@@ -83,11 +83,9 @@ def generate_graphs(config):
         buf.close()
 
         # Append to results list in a JSON-safe format
-        image_results.append({
-            "description": str(desc),
-            "type": str(gtype),
-            "image_base64": img_b64
-        })
+        image_results.append(
+            {"description": str(desc), "type": str(gtype), "image_base64": img_b64}
+        )
 
     return image_results
 
@@ -139,6 +137,7 @@ def predict():
         logger.error(f"Prediction error: {str(e)}", exc_info=True)
         return jsonify({"error": "Prediction failed", "message": str(e)}), 500
 
+
 @app.route("/generate_graphs", methods=["POST"])
 def generate_graphs_api():
     try:
@@ -147,21 +146,24 @@ def generate_graphs_api():
         # Ensure everything in result is JSON-serializable
         safe_graphs = []
         for g in result:
-            safe_graphs.append({
-                "description": str(g.get("description", "")),
-                "type": str(g.get("type", "")),
-                "image_base64": str(g.get("image_base64", ""))
-            })
+            safe_graphs.append(
+                {
+                    "description": str(g.get("description", "")),
+                    "type": str(g.get("type", "")),
+                    "image_base64": str(g.get("image_base64", "")),
+                }
+            )
 
         response = {
             "status": "success",
             "graph_count": len(safe_graphs),
-            "graphs": safe_graphs
+            "graphs": safe_graphs,
         }
 
         return jsonify(response), 200
     except Exception as e:
         return jsonify({"status": "error", "message": str(e)}), 400
+
 
 if __name__ == "__main__":
     app.run()
