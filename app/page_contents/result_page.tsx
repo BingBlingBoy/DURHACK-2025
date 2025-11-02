@@ -184,8 +184,9 @@ const Result2Page = () => {
                     <p className="text-gray-200 leading-relaxed">{data.justification.Embarked}</p>
                 </div>
 
-                <div onClick={async (e: React.MouseEvent<HTMLDivElement>) => {e.preventDefault; startStreaming(`Based on historical data from the Titanic disaster, passengers with these characteristics had a ${data.prediction.survived ? 'high' : 'low'} probability of survival. The survival rate was heavily influenced by passenger class, with third-class passengers facing significantly lower survival rates.`)}} className="cursor-pointer bg-linear-to-r from-red-500/20 to-red-600/20 backdrop-blur p-6 rounded-xl border-2 border-red-500/50">
-                    <h3 className="text-2xl font-semibold mb-3 text-red-300">Final Verdict</h3>
+                <div onClick={async (e: React.MouseEvent<HTMLDivElement>) => {e.preventDefault; startStreaming(`Based on historical data from the Titanic disaster, passengers with these characteristics had a ${data.prediction.survived ? 'high' : 'low'} probability of survival. The survival rate was heavily influenced by passenger class, with third-class passengers facing significantly lower survival rates.`)}}
+                    className={"cursor-pointer" + ( data.prediction.survived ? "bg-linear-to-g from-green-500 to-green-600 backdrop-blur p-6 rounded-xl border-2 border-green-500" : "bg-linear-to-r from-red-500/20 to-red-600/20 backdrop-blur p-6 rounded-xl border-2 border-red-500/50")}>
+                    <h3 className={"text-2xl font-semibold mb-3" + ( data.prediction.survived ? "text-green-300" : "text-red-300")}>Final Verdict</h3>
                     <p className="text-gray-200 leading-relaxed">
                         Based on historical data from the Titanic disaster, passengers with these characteristics had a {data.prediction.survived ? 'high' : 'low'} probability of survival.
                         The survival rate was heavily influenced by passenger class, with third-class passengers facing significantly lower survival rates.
