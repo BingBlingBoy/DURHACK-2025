@@ -4,7 +4,7 @@ import logo from "../assets/logo.png"
 const Navbar = () => {
     return (
         <nav className="bg-slate-800 text-white px-8 py-5 shadow-lg flex items-center justify-between flex-row border-b border-blue-500/20">
-            <div className="flex items-center">
+            <div className="flex items-center hover:scale-110 duration-1000">
                 <img className="w-12 h-12 rounded-full" src={logo} alt="Logo"/>
                 <Link to="/">
                 <a href="#" className="text-2xl font-bold tracking-wide hover:text-blue-200 transition duration-300">Iceberg</a>
