@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router"
 import { ChevronLeft, ChevronRight, Ship, Skull, Heart } from 'lucide-react';
 import Navbar from "~/utils/navbar";
+import importantUXfeatures from "~/assets/importantUXfeature.mp3"
 
 // const voiceId = "21m00Tcm4TlvDq8ikWAM";
 const voiceId = "nPczCjzI2devNBz1zQrb";
@@ -101,15 +102,24 @@ const Result2Page = () => {
             setLoading(false);
         }
     };
+    
+    const playImportantMedia = () => {
+        console.log("PLAYING BAGPIPES")
+        const audio = new Audio(importantUXfeatures);
+        audio.play();
+    }
 
     useEffect(() => {
+        if (revealed && !data.prediction.survived) {
+            playImportantMedia();
+        }
         if (currentSlide === 0) {
             const timer = setTimeout(() => setRevealed(true), 1000);
             return () => clearTimeout(timer);
         } else {
             setRevealed(false);
         }
-    }, [currentSlide]);
+    }, [currentSlide, revealed, data]);
     
     const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % 2);
     const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + 2) % 2);
@@ -132,7 +142,7 @@ const Result2Page = () => {
                         <p className="text-2xl text-gray-300">You made it to safety</p>
                     </div>
                 ) : (
-                    <div className="flex flex-col items-center">
+                    <div onLoad={playImportantMedia} className="flex flex-col items-center">
                         <Skull size={120} className="text-red-400 animate-pulse mb-6" />
                         <h2 className="text-6xl font-bold text-red-400 mb-4">DID NOT SURVIVE</h2>
                         <p className="text-2xl text-gray-300">Lost at sea</p>
