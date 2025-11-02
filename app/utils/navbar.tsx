@@ -15,22 +15,22 @@ const Navbar = () => {
                 <div className="flex items-center gap-2 hover:scale-110 duration-300">
                     <img className="w-12 h-12 rounded-full" src={logo} alt="Logo"/>
                     <Link to="/">
-                        <a href="#" className="text-2xl font-bold tracking-wide hover:text-white-200 transition duration-300">Iceberg</a>
+                        <div className="text-2xl font-bold tracking-wide hover:text-white-200 transition duration-300">Iceberg</div>
                     </Link>
                 </div>
                 
                 <div className="hidden md:flex space-x-8 items-center">
                     <Link to="/">
-                        <a href="#" className="text-lg font-medium hover:text-white-200 transition duration-300 relative group">
+                        <div className="text-lg font-medium hover:text-white-200 transition duration-300 relative group">
                             Home
                             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white-300 group-hover:w-full transition-all duration-300"></span>
-                        </a>
+                        </div>
                     </Link>
                     <Link to="/analyse">
-                        <a href="#" className="text-lg font-medium hover:text-white-200 transition duration-300 relative group">
+                        <div className="text-lg font-medium hover:text-white-200 transition duration-300 relative group">
                             Analyse
                             <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-white-300 group-hover:w-full transition-all duration-300"></span>
-                        </a>
+                        </div>
                     </Link>
                 </div>
                 
@@ -59,14 +59,14 @@ const Navbar = () => {
             >
                 <div className="flex flex-col space-y-4 px-8 py-6">
                     <Link to="/" onClick={toggleMenu}>
-                        <a href="#" className="text-lg font-medium hover:text-blue-200 transition duration-300 block py-2 hover:bg-white/5 rounded-lg px-3">
+                        <div className="text-lg font-medium hover:text-blue-200 transition duration-300 block py-2 hover:bg-white/5 rounded-lg px-3">
                             Home
-                        </a>
+                        </div>
                     </Link>
                     <Link to="/analyse" onClick={toggleMenu}>
-                        <a href="#" className="text-lg font-medium hover:text-blue-200 transition duration-300 block py-2 hover:bg-white/5 rounded-lg px-3">
+                        <div className="text-lg font-medium hover:text-blue-200 transition duration-300 block py-2 hover:bg-white/5 rounded-lg px-3">
                             Analyse
-                        </a>
+                        </div>
                     </Link>
                 </div>
             </div>
