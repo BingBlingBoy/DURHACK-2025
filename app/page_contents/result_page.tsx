@@ -30,6 +30,7 @@ const Result2Page = () => {
     
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [hasPlayed, setHasPlayed] = useState(false);
 
     const startStreaming = async (text:string) => {
         setLoading(true);
@@ -109,17 +110,34 @@ const Result2Page = () => {
         audio.play();
     }
 
+    // useEffect(() => {
+    //     if (revealed && !data.prediction.survived) {
+    //         playImportantMedia();
+    //     }
+    //     if (currentSlide === 0) {
+    //         const timer = setTimeout(() => setRevealed(true), 1000);
+    //         return () => clearTimeout(timer);
+    //     } else {
+    //         setRevealed(false);
+    //     }
+    // }, [currentSlide, revealed, data]);
+    
     useEffect(() => {
-        if (revealed && !data.prediction.survived) {
+    if (currentSlide === 0) {
+        const timer = setTimeout(() => setRevealed(true), 1000);
+        return () => clearTimeout(timer);
+    } else {
+        setRevealed(false);
+        setHasPlayed(false); // Reset when leaving the slide
+    }
+}, [currentSlide]);
+
+    useEffect(() => {
+        if (revealed && !data.prediction.survived && !hasPlayed) {
             playImportantMedia();
+            setHasPlayed(true);
         }
-        if (currentSlide === 0) {
-            const timer = setTimeout(() => setRevealed(true), 1000);
-            return () => clearTimeout(timer);
-        } else {
-            setRevealed(false);
-        }
-    }, [currentSlide, revealed, data]);
+    }, [revealed, data.prediction.survived, hasPlayed]);
     
     const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % 2);
     const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + 2) % 2);
