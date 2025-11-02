@@ -173,7 +173,7 @@ const SingleFileOpener = () => {
     <>
       <LoadingModal isOpen={uploading} />
       <div className="flex items-center flex-col gap-y-4">
-        <h1 className="font-bold text-7xl leading-tight text-center">Enter Files to Analyse</h1>
+        <h1 className="font-bold text-7xl leading-tight text-center text-shadow-md">Enter Files to Analyse</h1>
         <div className="flex flex-col items-start mb-4 font-extrabold text-2xl">
           <input
             id="file"
