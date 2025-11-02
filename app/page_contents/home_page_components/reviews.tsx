@@ -25,7 +25,7 @@ const Review = () => {
     const [activeItemIndex, setActiveItemIndex] = useState(0);
     return (
         <>
-        <div className="flex flex-col justify-center items-center w-full">
+        <div className="p-20 flex flex-col justify-center items-center w-full">
           <h1 className="font-bold text-4xl mb-4">Reviews</h1>
           <div className="grid place-items-center">
             <Carousel

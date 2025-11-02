@@ -6,7 +6,7 @@ const Home2Page = () => {
     return (
         <>
             <Navbar/>
-            <div className="p-20 bg-linear-to-br from-blue-900 via-blue-800 to-blue-900 text-white min-h-screen">
+            <div className="bg-linear-to-br from-blue-900 via-blue-800 to-blue-900 text-white">
                 <TitleCard />
                 <Review />
             </div>
