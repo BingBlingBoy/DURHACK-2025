@@ -1,0 +1,76 @@
+services:
+  # React Router Frontend
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      provenance: false
+      sbom: false
+    container_name: durhack-frontend
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - VITE_BACKEND_URL=http://localhost:3001
+      - VITE_PYTHON_BACKEND_URL=http://localhost:5000
+    depends_on:
+      - backend
+      - python-backend
+    networks:
+      - durhack-network
+    restart: unless-stopped
+
+  # Express.js Backend
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+      provenance: false
+      sbom: false
+    container_name: durhack-backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=production
+      - PORT=3001
+      - PYTHON_BACKEND_URL=http://python-backend:5000
+    env_file:
+      - ./backend/.env
+    volumes:
+      - backend-uploads:/app/uploads
+    networks:
+      - durhack-network
+    restart: unless-stopped
+
+  # Flask Python Backend
+  python-backend:
+    build:
+      context: ./python_backend
+      dockerfile: Dockerfile
+      provenance: false
+      sbom: false
+    container_name: durhack-python-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - FLASK_APP=server.py
+      - FLASK_ENV=production
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - python-models:/app/models
+      - python-data:/app/data
+    networks:
+      - durhack-network
+    restart: unless-stopped
+
+networks:
+  durhack-network:
+    driver: bridge
+
+volumes:
+  backend-uploads:
+    driver: local
+  python-models:
+    driver: local
+  python-data:
+    driver: local

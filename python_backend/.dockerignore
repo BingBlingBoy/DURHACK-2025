@@ -1,0 +1,108 @@
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv
+
+# Environment files
+.env
+.env.local
+.env.*.local
+*.env
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.spyderproject
+.spyproject
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*.ipynb
+
+# Git
+.git
+.gitignore
+.gitattributes
+
+# Documentation
+README.md
+*.md
+docs/
+
+# Testing
+.pytest_cache/
+.coverage
+.tox/
+.hypothesis/
+htmlcov/
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+.pytest_cache
+
+# Logs
+*.log
+logs/
+
+# OS files
+Thumbs.db
+.DS_Store
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Docker files
+Dockerfile
+.dockerignore
+
+# Models and data (use volumes)
+*.pkl
+*.joblib
+*.h5
+*.hdf5
+models/
+data/
+
+# CSV files (keep only essential ones)
+*.csv
+!Titanic-Dataset.csv
+!mountains_vs_beaches_preferences.csv
+
+# Development files
+.flake8
+.pylintrc
+mypy.ini
+setup.py
+setup.cfg
