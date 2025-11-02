@@ -17,7 +17,7 @@ const Review = () => {
       title: "Rose DeWitt Bukater",
       image: rose,
       stars: [0], 
-      review: "Fuck Jack",
+      review: "Such an amazing site.",
       rating: 5 
     },
     ]);
